@@ -21,8 +21,9 @@ DROP TABLE IF EXISTS department CASCADE;
 -- ENUM TYPES
 -- ========================
 
-CREATE TYPE reward_type_enum AS ENUM ('REWARD', 'DISCIPLINE');
+CREATE TYPE reward_type_enum AS ENUM ('KHEN THƯỞNG', 'KỶ LUẬT');
 CREATE TYPE role_enum AS ENUM ('ADMIN', 'MANAGER', 'STAFF');
+CREATE TYPE status_enum AS ENUM ('ACTIVE', 'NON-ACTIVE');
 
 -- ========================
 -- TABLE: department
@@ -222,6 +223,8 @@ CREATE TABLE employee_account (
     username VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     role role_enum,
+    avatar_url TEXT,
+    status status_enum,
 
     CONSTRAINT fk_account_employee
         FOREIGN KEY (employee_id)
@@ -238,8 +241,8 @@ CREATE TABLE task (
     description TEXT,
     created_date DATE NOT NULL DEFAULT CURRENT_DATE,
     due_date DATE,
-    priority VARCHAR(20) NOT NULL CHECK (priority IN ('low','medium','high')),
-    status VARCHAR(30) NOT NULL CHECK (status IN ('pending','in_progress','completed','cancelled')),
+    priority VARCHAR(20) NOT NULL,
+    status VARCHAR(30) NOT NULL,
     manager_id INTEGER NOT NULL,
 
     CONSTRAINT fk_task_creator
@@ -256,8 +259,7 @@ CREATE TABLE task_assignment (
     task_id INTEGER NOT NULL,
     staff_id INTEGER NOT NULL,
     assigned_date DATE DEFAULT CURRENT_DATE,
-    personal_status VARCHAR(30)
-        CHECK (personal_status IN ('not_started','doing','done')),
+    personal_status VARCHAR(30),
     completed_date DATE,
 
     CONSTRAINT fk_assignment_task

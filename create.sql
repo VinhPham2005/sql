@@ -169,7 +169,7 @@ CREATE TABLE payroll (
 CREATE TABLE reward_discipline (
     id SERIAL PRIMARY KEY,
     employee_id INTEGER NOT NULL,
-    type reward_type_enum,
+    type varchar(50),
     amount NUMERIC(15,2),
     decision_date DATE,
 
@@ -222,9 +222,9 @@ CREATE TABLE employee_account (
     employee_id INTEGER UNIQUE NOT NULL,
     username VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role role_enum,
+    role varchar(50),
     avatar_url TEXT,
-    status status_enum,
+    status varchar(50),
 
     CONSTRAINT fk_account_employee
         FOREIGN KEY (employee_id)
